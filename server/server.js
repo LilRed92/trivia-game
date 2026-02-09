@@ -11,7 +11,7 @@ app.use(express.json({ type: "application/json" }));
 app.use(express.urlencoded({ extended: true }));
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-app.use('/api', router);
+app.use('/trivia', router);
 
 app.get('/', (req, res) => res.json({ message: 'Hello from the server!' }));
 
