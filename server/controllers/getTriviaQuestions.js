@@ -37,12 +37,12 @@ export const getTriviaQuestions = (req, res) => {
         const questions = allQuestionsData.map(({ question, correct_answer, incorrect_answers, category, type }) => ({
             question,
             cAnswer: correct_answer,
-            iAnswer: incorrect_answers,
+            iAnswers: incorrect_answers,
             category,
             type
         }));
         
-        res.send ({ questions });
+        res.send({ questions });
     })
     .catch((err) => {
         console.err('Error fetching trivia questions', err);

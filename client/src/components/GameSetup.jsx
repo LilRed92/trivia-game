@@ -85,9 +85,7 @@
             <input
                 type="number"
                 value={amount}
-                onChange={handleInputChange}
-                placeholder="10"
-                max=50       
+                onChange={handleInputChange}    
             />
         </label>
         
