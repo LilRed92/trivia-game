@@ -31,13 +31,35 @@
 
  import React, { useState, useRef } from 'react';
 
- function GameSetup({ }) {
+ function GameSetup({ onDataReceived }) {
   const [amount, setAmount] = useState([]);
   const [category, setCategory] = useState([]);
   const [difficulty, setDifficulty] = useState([]);
   const [type, setType] = useState([]);
 
-  const fetchData = async () => {
+  // Fetch req to get category data for use in form category selection options BEFORE form is submitted
+  const fetchCategoryData = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/trivia/categories');
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      };
+
+      const triviaCategories = await response.json();
+      console.log(triviaCategories);
+
+       return 
+
+    } catch (err) {
+        console.error('Fetch error:', err);
+    }
+  };
+
+  fetchCategoryData();
+
+  // Fetch req to get questions data AFTER form is submitted
+  const fetchQuestionData = async () => {
     try {
       const params = new URLSearchParams({ questionAmount: amount, questionCategory: category, questionDifficulty: difficulty, questionType: type });
       const response = await fetch(`http://localhost:3000/trivia/game?${params}`);
@@ -51,9 +73,10 @@
        return onDataReceived(questions);
 
     } catch (err) {
-        console.error('Fetch error:' err);
+        console.error('Fetch error:', err);
     }
   };
+
 
   const handleInputChange = (event) => {
     setAmount(event.target.value);
@@ -65,7 +88,7 @@
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetchData();
+    fetchQuestionData();
   };
 
   return (
@@ -77,7 +100,7 @@
                 value={amount}
                 onChange={handleInputChange}
                 placeholder="10"
-                max=50       
+                //max=50       
             />
         </label>
 
@@ -95,3 +118,5 @@
   )
 
  }
+
+ export default GameSetup;
