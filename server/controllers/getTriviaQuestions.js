@@ -6,8 +6,9 @@ export const getTriviaQuestions = (req, res) => {
 
    // NOTE Base URL: https://opentdb.com/api.php?
 
-   // NOTE Modified URL: `https://opentdb.com/api.php?${amount}&${category}&${difficulty}&${type}
-
+   // NOTE Modified URL: `https://opentdb.com/api.php?${amount}&${category}&${difficulty}&${type
+   
+   // TODO IMPORTANT! UPDATE params once GameForm.jsx is complete
    // const amount = req.query.questionAmount;
    // const category = req.query.questionCategory;
    // const difficulty = req.query.questionDifficulty;
@@ -32,7 +33,16 @@ export const getTriviaQuestions = (req, res) => {
    fetch(url)
     .then((res) => res.json())
     .then((data) => {
-        res.send ({ data });
+        const allQuestionsData = data.results;
+        const questions = allQuestionsData.map(({ question, correct_answer, incorrect_answers, category, type }) => ({
+            question,
+            cAnswer: correct_answer,
+            iAnswer: incorrect_answers,
+            category,
+            type
+        }));
+        
+        res.send ({ questions });
     })
     .catch((err) => {
         console.err('Error fetching trivia questions', err);

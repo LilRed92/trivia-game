@@ -1,0 +1,1 @@
+// At the end of the game, the backend determines if the user has won or lost based on their answers.
