@@ -8,5 +8,6 @@ router.get('/', (req, res) => {
 });
 
 router.get('/game', getTriviaQuestions);
+router.get('/categories', getCategoryData);
 
 export default router;

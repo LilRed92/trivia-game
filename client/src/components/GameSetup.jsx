@@ -40,7 +40,60 @@
   const fetchData = async () => {
     try {
       const params = new URLSearchParams({ questionAmount: amount, questionCategory: category, questionDifficulty: difficulty, questionType: type });
-      const response = await fetch(`http://localhost:3000/trivia/game/`)
+      const response = await fetch(`http://localhost:3000/trivia/game?${params}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      };
+
+      const questions = await response.json();
+
+       return onDataReceived(questions);
+
+    } catch (err) {
+        console.error('Fetch error:' err);
     }
-  }
+  };
+
+  const handleInputChange = (event) => {
+    setAmount(event.target.value);
+    setCategory(event.target.value);
+    setCategory(event.target.value);
+    setDifficulty(event.target.value);
+    setType(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    fetchData();
+  };
+
+  return (
+    <>
+    <form onSubmit={handleSubmit}>
+        <label htmlFor="amount">Number of questions (Max 50):
+            <input
+                type="number"
+                value={amount}
+                onChange={handleInputChange}
+                placeholder="10"
+                max=50       
+            />
+        </label>
+
+        <label htmlFor="category">Please select a category.
+            <input
+                type="number"
+                value={amount}
+                onChange={handleInputChange}
+                placeholder="10"
+                max=50       
+            />
+        </label>
+        
+
+    </form>
+    </>
+  )
+
  }
