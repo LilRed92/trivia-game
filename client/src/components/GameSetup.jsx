@@ -31,32 +31,37 @@
 
  import React, { useState, useRef } from 'react';
 
- function GameSetup({ onDataReceived }) {
+ function GameSetup({ onDataReceived, onNameReceived }) {
   const [amount, setAmount] = useState([]);
   const [category, setCategory] = useState([]);
   const [difficulty, setDifficulty] = useState([]);
   const [type, setType] = useState([]);
+  const [name, setName] = useState([]);
+  //const categorySelector = useRef(null);
 
   // Fetch req to get category data for use in form category selection options BEFORE form is submitted
-  const fetchCategoryData = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/trivia/categories');
+  // const fetchCategoryData = async () => {
+  //   try {
+  //     const response = await fetch('http://localhost:3000/trivia/categories');
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      };
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+  //     };
 
-      const triviaCategories = await response.json();
-      console.log(triviaCategories);
+  //     const triviaCategories = await response.json();
+  //     console.log(triviaCategories);
+  //     for (const category of triviaCategories.category) {
+  //       const option = document.createElement('option')
+  //     }
 
-       return 
+  //      return 
 
-    } catch (err) {
-        console.error('Fetch error:', err);
-    }
-  };
+  //   } catch (err) {
+  //       console.error('Fetch error:', err);
+  //   }
+  // };
 
-  fetchCategoryData();
+  // fetchCategoryData();
 
   // Fetch req to get questions data AFTER form is submitted
   const fetchQuestionData = async () => {
@@ -81,38 +86,81 @@
   const handleInputChange = (event) => {
     setAmount(event.target.value);
     setCategory(event.target.value);
-    setCategory(event.target.value);
     setDifficulty(event.target.value);
     setType(event.target.value);
+    setName(event.target.value);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     fetchQuestionData();
+    onNameReceived(name);
   };
 
   return (
     <>
     <form onSubmit={handleSubmit}>
-        <label htmlFor="amount">Number of questions (Max 50):
+        <label>Number of questions (Max 50):
             <input
                 type="number"
                 value={amount}
+                name="amount"
                 onChange={handleInputChange}
                 placeholder="10"
-                //max=50       
+                max="50"      
             />
         </label>
+        {/* TODO - Create a dropdown that populates options per fetched category data. Possibly create a new component for dropdown */}
+        {/* <label>Please select a category.
+          <select 
+            ref={categorySelector}
+            value={category}
+            name="categorySelector"
+            onChange={handleInputChange}
+            >
 
-        <label htmlFor="category">Please select a category.
-            <input
-                type="number"
-                value={amount}
-                onChange={handleInputChange}    
-            />
+          </select>
+            
+        </label> */}
+
+        <label>
+          Select question difficulty level:
+          <select
+              value={difficulty}
+              name="difficulty"
+              onChange={handleInputChange}
+              defaultValue=""
+              >
+                <option value="">Any Difficulty</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+          </select>
         </label>
-        
 
+        <label>
+          Select question type:
+          <select
+              value={type}
+              name="type"
+              onChange={handleInputChange}
+              defaultValue=""
+              >
+                <option value="">Any Type</option>
+                <option value="multiple">Multiple Choice</option>
+                <option value="boolean">True/False</option>
+          </select>
+        </label>
+        <label>Please enter your name:
+          <input
+              type="text"
+              value={name}
+              name="name"
+              onChange={handleInputChange}
+              placeholder="Player Name"
+          />
+        </label>
+        <button type="submit">Create Trivia Game!</button>
     </form>
     </>
   )
