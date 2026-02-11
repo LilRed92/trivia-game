@@ -8,15 +8,18 @@ export const getCategoryData = (req, res) => {
     fetch(url)
         .then((res) => res.json())
         .then((data) => {
-            const trivia_categories = data.map(({ id, name }) => ({
+            const categoryResults = data.trivia_categories;
+            const triviaCategories = categoryResults.map(({ id, name }) => ({
                 id,
                 name
             }));
 
-            res.send({ trivia_categories });
+            res.send({ triviaCategories });
         })
         .catch((err) => {
-            console.err('Error fetching trivia categories', err);
+            console.error('Error fetching trivia categories', err);
             res.status(500).json({ message: 'Internal Server Error', detail: err.message });
         });
 };
+
+

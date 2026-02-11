@@ -1,5 +1,6 @@
 import express from 'express';
-import { getTriviaQuestions } from '../controllers/getTriviaQuestions.js'
+import { getTriviaQuestions } from '../controllers/getTriviaQuestions.js';
+import { getCategoryData } from '../controllers/getCategoryData.js';
 
 const router = express.Router();
 

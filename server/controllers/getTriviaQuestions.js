@@ -45,7 +45,7 @@ export const getTriviaQuestions = (req, res) => {
         res.send({ questions });
     })
     .catch((err) => {
-        console.err('Error fetching trivia questions', err);
+        console.error('Error fetching trivia questions', err);
         res.status(500).json({ message: 'Interval Server Error', detail: err.message });
     });
     console.log(url);
