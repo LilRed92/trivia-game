@@ -31,12 +31,19 @@
 
  import React, { useState, useRef } from 'react';
 
- function GameSetup({ onDataReceived, onNameReceived }) {
+ function GameSetup({ onDataReceived }) {
   const [amount, setAmount] = useState([]);
   const [category, setCategory] = useState([]);
   const [difficulty, setDifficulty] = useState([]);
   const [type, setType] = useState([]);
   const [name, setName] = useState([]);
+  const [formState, setFormState] = useState({
+    amount: 0,
+    category: "",
+    difficulty: "",
+    type: "",
+    name: ""
+  });
   //const categorySelector = useRef(null);
 
   // Fetch req to get category data for use in form category selection options BEFORE form is submitted
@@ -63,25 +70,7 @@
 
   // fetchCategoryData();
 
-  // Fetch req to get questions data AFTER form is submitted
-  const fetchQuestionData = async () => {
-    try {
-      const params = new URLSearchParams({ questionAmount: amount, questionCategory: category, questionDifficulty: difficulty, questionType: type });
-      const response = await fetch(`http://localhost:3000/trivia/game?${params}`);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      };
-
-      const questions = await response.json();
-
-       return onDataReceived(questions);
-
-    } catch (err) {
-        console.error('Fetch error:', err);
-    }
-  };
-
+  
 
   const handleInputChange = (event) => {
     setAmount(event.target.value);
@@ -93,12 +82,22 @@
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetchQuestionData();
-    onNameReceived(name);
+    setFormState(currentState => {
+      return {
+        ...currentState,
+        amount: currentState.amount + 1,
+        category: currentState.category,
+        difficulty: currentState.difficulty,
+        type: currentState.type,
+        name: currentState.name
+      }
+    });
+    onDataReceived(formState);
   };
 
   return (
     <>
+    <p className="instructions">Please make your selections below, and hit the "Play!" button to start the game.</p>
     <form onSubmit={handleSubmit}>
         <label>Number of questions (Max 50):
             <input
