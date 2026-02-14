@@ -1,6 +1,6 @@
 // Add category data found via Open Trivia Database API page using the Category Lookup URL
 
-export const triviaCategories = [
+const categories = [
 	{
 		id: 9,
 		name: "General Knowledge",
@@ -98,3 +98,5 @@ export const triviaCategories = [
 		name: "Entertainment: Cartoon & Animations",
 	},
 ];
+
+export default categories;

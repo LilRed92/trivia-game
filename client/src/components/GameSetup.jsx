@@ -29,7 +29,7 @@
 // playerName
 // playerScore
 
- import React, { useState, useRef } from 'react';
+ import React, { useState, useEffect } from 'react';
 
  function GameSetup({ onDataReceived }) {
   const [amount, setAmount] = useState([]);
@@ -37,6 +37,7 @@
   const [difficulty, setDifficulty] = useState([]);
   const [type, setType] = useState([]);
   const [name, setName] = useState([]);
+  const [triviaCategories, setTriviaCategories] = useState([]);
   const [formState, setFormState] = useState({
     amount: 0,
     category: "",
@@ -47,33 +48,34 @@
   //const categorySelector = useRef(null);
 
   // Fetch req to get category data for use in form category selection options BEFORE form is submitted
-  // const fetchCategoryData = async () => {
-  //   try {
-  //     const response = await fetch('http://localhost:3000/trivia/categories');
+  useEffect(() => {
+    const fetchCategoryData = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/trivia/categories');
+        // const response = await fetch('./server/data/categories.json');
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        };
 
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! Status: ${response.status}`);
-  //     };
+        const data = await response.json();
+        setTriviaCategories(data);
 
-  //     const triviaCategories = await response.json();
-  //     console.log(triviaCategories);
-  //     for (const category of triviaCategories.category) {
-  //       const option = document.createElement('option')
-  //     }
+        return data;
 
-  //      return 
+      } catch (err) {
+          console.error('Fetch error:', err);
+      }
+    };
 
-  //   } catch (err) {
-  //       console.error('Fetch error:', err);
-  //   }
-  // };
+    fetchCategoryData();
+  }, []);
 
-  // fetchCategoryData();
 
-  
+  console.log(triviaCategories);
 
   const handleInputChange = (event) => {
     setAmount(event.target.value);
+    console.log(amount);
     setCategory(event.target.value);
     setDifficulty(event.target.value);
     setType(event.target.value);
@@ -95,6 +97,9 @@
     onDataReceived(formState);
   };
 
+  const categories = [];
+  categories.name = triviaCategories.name;
+  categories.key = triviaCategories.id;
   return (
     <>
     <p className="instructions">Please make your selections below, and hit the "Play!" button to start the game.</p>
@@ -106,21 +111,29 @@
                 name="amount"
                 onChange={handleInputChange}
                 placeholder="10"
-                max="50"      
+                max="50"
+                required      
             />
         </label>
         {/* TODO - Create a dropdown that populates options per fetched category data. Possibly create a new component for dropdown */}
-        {/* <label>Please select a category.
-          <select 
-            ref={categorySelector}
-            value={category}
-            name="categorySelector"
-            onChange={handleInputChange}
-            >
-
+        <p>Please select a category.
+            <select 
+                name="selectedCategory"
+                value={category}
+                multiple={true}
+                onChange={handleInputChange}
+              >
+          {categories.map((category, i) => (
+                <option
+                    id={i}
+                    name={category.name}
+                    value={category.key}
+                >
+                {category.name}
+                </option>
+            ))}
           </select>
-            
-        </label> */}
+        </p>
 
         <label>
           Select question difficulty level:
@@ -128,7 +141,6 @@
               value={difficulty}
               name="difficulty"
               onChange={handleInputChange}
-              defaultValue=""
               >
                 <option value="">Any Difficulty</option>
                 <option value="easy">Easy</option>
@@ -143,7 +155,6 @@
               value={type}
               name="type"
               onChange={handleInputChange}
-              defaultValue=""
               >
                 <option value="">Any Type</option>
                 <option value="multiple">Multiple Choice</option>

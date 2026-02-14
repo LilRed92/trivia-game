@@ -14,16 +14,16 @@ export const getTriviaQuestions = (req, res) => {
    // const difficulty = req.query.questionDifficulty;
    // const type = req.query.questionType;
 
-   const amount = '10';
-   const category = '25';
-   const difficulty = 'easy';
-   const type = 'multiple';
+//    const amount = '10';
+//    const category = '25';
+//    const difficulty = 'easy';
+//    const type = 'multiple';
 
    const params = new URLSearchParams({
-   amount: amount,
-   category: category,
-   difficulty: difficulty,
-   type: type
+   amount: req.query.questionAmount,
+   category: req.query.questionCategory,
+   difficulty: req.query.questionDifficulty,
+   type: req.query.questionType
    });
 
 
