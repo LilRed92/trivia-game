@@ -306,8 +306,10 @@ pyvenv.cfg
 pip-selfcheck.json
 
 ### VisualStudioCode ###
+.vscode/
 .vscode/*
 !.vscode/settings.json
+.vscode/tasks.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
@@ -908,4 +910,4 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,actionscript,archives,backup,batch,diff,direnv,dotenv,dotfilessh,dotnetcore,dotsettings,jenv,node,react,ssh,virtualenv,visualstudio,vs,zsh
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
-
+TODO
