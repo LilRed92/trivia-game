@@ -74,12 +74,12 @@
   console.log(triviaCategories);
 
   const handleInputChange = (event) => {
-    setAmount(event.target.value);
-    console.log(amount);
-    setCategory(event.target.value);
-    setDifficulty(event.target.value);
-    setType(event.target.value);
-    setName(event.target.value);
+    //setAmount(event.target.value);
+    // console.log(amount);
+    // setCategory(event.target.value);
+    // setDifficulty(event.target.value);
+    // setType(event.target.value);
+    // setName(event.target.value);
   };
 
   const handleSubmit = (event) => {
@@ -109,7 +109,7 @@
                 type="number"
                 value={amount}
                 name="amount"
-                onChange={handleInputChange}
+                onChange={(e) => setAmount(e.target.value)}
                 placeholder="10"
                 max="50"
                 required      
@@ -121,7 +121,7 @@
                 name="selectedCategory"
                 value={category}
                 multiple={true}
-                onChange={handleInputChange}
+                onChange={(e) => setCategory(e.target.value)}
               >
           {categories.map((category, i) => (
                 <option
@@ -140,7 +140,7 @@
           <select
               value={difficulty}
               name="difficulty"
-              onChange={handleInputChange}
+              onChange={(e) => setDifficulty(e.target.value)}
               >
                 <option value="">Any Difficulty</option>
                 <option value="easy">Easy</option>
@@ -154,7 +154,7 @@
           <select
               value={type}
               name="type"
-              onChange={handleInputChange}
+              onChange={(e) => setType(e.target.value)}
               >
                 <option value="">Any Type</option>
                 <option value="multiple">Multiple Choice</option>
@@ -166,7 +166,7 @@
               type="text"
               value={name}
               name="name"
-              onChange={handleInputChange}
+              onChange={(e) => setName(e.target.value)}
               placeholder="Player Name"
           />
         </label>

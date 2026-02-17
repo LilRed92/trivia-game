@@ -7,11 +7,12 @@ import './App.css'
 function App() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-  const [, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState([]);
+
 
   const handleFormData = (questions) => {
     setIsSubmitted(true);
-    setQuestions(questions);
+    setQuestions();
   };
 
   return (
@@ -19,8 +20,10 @@ function App() {
       <h1 className="startGreeting">Trivia Game!</h1>
       
       {!isSubmitted && <GameSetup onDataReceived={handleFormData} />}
+      {/* {(isSubmitted && !gameOver) && <GamePlay forminput={}/>}
+      {/* {!isSubmitted && <GameSetup onDataReceived={handleFormData} />} */}
       {(isSubmitted && !gameOver) && <GamePlay />}
-      {gameOver && <GameResults />}
+      {gameOver && <GameResults />} */}
 
     </>
   )
